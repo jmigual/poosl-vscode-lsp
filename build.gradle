@@ -7,16 +7,16 @@ buildscript {
 	}
 	dependencies {
 		classpath 'org.xtext:xtext-gradle-plugin:3.0.2'
-		classpath 'com.github.node-gradle:gradle-node-plugin:3.3.0'
-		classpath 'net.researchgate:gradle-release:2.8.1'
+		classpath 'com.github.node-gradle:gradle-node-plugin:3.5.1'
+		classpath 'net.researchgate:gradle-release:3.0.2'
 	}
 }
 
 apply plugin: 'com.github.node-gradle.node'
 apply plugin: 'net.researchgate.release'
 node {
-	version = '16.13.2'
-	npmVersion = '8.3.0'
+	version = '18.13.0'
+	npmVersion = '9.3.0'
 	download = true
 }
 
@@ -52,11 +52,11 @@ configure(subprojects.findAll { it.name.startsWith('org.xtext') }) {
 }
 
 task npmInstallVsce(type: NpmTask, dependsOn: npmSetup) {
-	ext.destPath = "$rootProject.projectDir/node_modules/vsce" 
+	ext.destPath = "$rootProject.projectDir/node_modules/@vscode/vsce" 
 	outputs.dir(destPath)
 	group 'Node'
 	description 'Installs the NodeJS package "Visual Studio Code Extension Manager"'
-	args = [ 'install', 'vsce' ]
+	args = [ 'install', '@vscode/vsce' ]
 }
 
 // Configuration for vscode projects
@@ -64,8 +64,8 @@ configure(subprojects.findAll { it.name.startsWith('vscode') }) {
 
 	apply plugin: 'com.github.node-gradle.node'
 	node {
-	    version = '16.13.2'
-	    npmVersion = '8.3.0'
+	    version = '18.13.0'
+		npmVersion = '9.3.0'
 	    download = true
 	}
 
@@ -144,6 +144,6 @@ release {
 }
 
 // Workaround for issue https://github.com/researchgate/gradle-release/issues/144
-task build {
-	dependsOn subprojects.findResults { it.tasks.findByName('build') }
-}
+// task build {
+// 	dependsOn subprojects.findResults { it.tasks.findByName('build') }
+// }
